@@ -8,6 +8,8 @@ DEPS = rutinas_clock.h
 OBJS = $(SRCS:.c=.o)
 
 $(MAIN): $(OBJS)
+	rm -f $(MAIN)
+	rm -rf objects/
 	$(CC) -o $(MAIN) $(OBJS)
 	mkdir objects/
 	mv *.o objects/
@@ -17,4 +19,4 @@ $(MAIN): $(OBJS)
 
 clean:
 	rm -f $(MAIN)
-	rm -rf objects/ 
+	rm -rf objects/
