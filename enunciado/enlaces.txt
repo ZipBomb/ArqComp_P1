@@ -1,0 +1,3 @@
+http://www.futurechips.org/chip-design-for-all/prefetching.html
+http://www.cc.gatech.edu/~hyesoon/lee_taco12.pdf
+http://web.cecs.pdx.edu/~alaa/courses/ece587/spring2012/notes/prefetching.pdf
