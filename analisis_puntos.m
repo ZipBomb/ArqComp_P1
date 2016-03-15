@@ -17,8 +17,7 @@ while i<=length(x)
   i=i+3;
   k=k+1;
 endwhile
-x1
-y1
+
 plot(x1,y1,'-r*','linewidth',2,'markersize',6,'markeredgecolor','k','markerfacecolor','k');
 title('Analisis de los Resultados');
 xlabel('Numero Total de Lineas Cache');
