@@ -2,10 +2,10 @@
 #include "time.h"
 
 #define handle_error(msg) \
-    do { perror(msg); exit(EXIT_FAILURE); } while (0)   
+    do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 double genera_aleatorio() {
-    double min = 1.0; 
+    double min = 1.0;
     double max = 2.0;
     double rango = max - min;
 
@@ -23,15 +23,17 @@ int main(int argc, char *argv[]){
 	double L = atoll(argv[2]);
 
 	int R = (int)((L*8/D)+1);
-	int e[10*R];
-	
+
+	int *e=(int *)malloc(10*R*sizeof(int));
+
     double S[10];
 	double ciclos[10];
 	double ck=0;
 
     double *A = NULL;
+
 	A = _mm_malloc(R*D*8,512);
-	
+
     int i=0,j=0,k=0,z=0;
 
     // Inicialización de los valores del vector
@@ -50,7 +52,7 @@ int main(int argc, char *argv[]){
 	for(i=0;i<10;i++){
 		start_counter();
 		double sum = 0;
-		
+
         //Sumar las posciones multiplos de D desde el vector e, estas están cada R indices
 		for(j=0;j<R*10;j=j+R)
 			sum+=*(A+e[j]);
@@ -58,7 +60,7 @@ int main(int argc, char *argv[]){
 		//Guardar Resultados
 		S[i]=sum;
 		ck=get_counter();
-		
+
         //Guardar ciclos
 		ciclos[i]=ck;
 	}
@@ -85,10 +87,12 @@ int main(int argc, char *argv[]){
         handle_error("en la apertura del archivo");
 
 	//Escribir en el archivo las tres mejores medidas
-	for(i=0;i<3;i++){
+  for(i=0;i<3;i++){
 		fprintf(fp, "%f", ciclos[i]);
-		fprintf(fp, "  %f\n", L);
+		fprintf(fp, "  %f", L);
+    fprintf(fp, "  %d\n", D);
 	}
+
 
 	return 0;
 }
