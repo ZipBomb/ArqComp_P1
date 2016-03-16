@@ -21,8 +21,11 @@ int main(int argc, char *argv[]){
 
 	int D = atoi(argv[1]);
 	double L = atoll(argv[2]);
+  if(D<8)
+	 int R = (int)((L/D)+1);
+  else
+    int R = L;
 
-	int R = (int)((L*8/D)+1);
 	int *e=(int *)malloc(10*R*sizeof(int));
 
     double S[10];
@@ -65,6 +68,7 @@ int main(int argc, char *argv[]){
 	}
 
     _mm_free(A);
+    free(e);
 
 	//Ordenar los ciclos medidos
 	double aux=0;
