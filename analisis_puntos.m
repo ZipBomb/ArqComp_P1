@@ -15,13 +15,14 @@ i=3;
 while i<=length(x)
   z=y(i)*y(i-1)*y(i-2);
   x1(k)=z^(1/3);
-  y1(k)=y(i);
+  y1(k)=x(i);
   D1(k)=D(i);
   i=i+3;
   k=k+1;
 endwhile
+
 for i=1:7
-  plot(x1(i:5:end),y1(i:5:end),'-r*','linewidth',2,'markersize',6,'markeredgecolor','k','markerfacecolor','k');
+  bar(y1(i:5:end),x1(i:5:end),'-or');
   title('Analisis de los Resultados');
   xlabel('Numero Total de Lineas Cache');
   ylabel('Coste Medio por Iteracion');
