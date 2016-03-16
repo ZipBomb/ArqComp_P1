@@ -21,11 +21,11 @@ int main(int argc, char *argv[]){
 
 	int D = atoi(argv[1]);
 	double L = atoll(argv[2]);
-
+  int R;
   if(D<8)
-	 int R = (int)((L/D)+1);
+	 R = (int)((L/D)+1);
   else
-   int R = L;
+   R = L;
 
 	int *e=(int *)malloc(10*R*sizeof(int));
 
@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
 	// Generación de secuencias de D cada R índices
 	e[0]=0;
 	for(i=1;i<10*R;i++){
-		if(i%R==0)
+		if(i%10==0)
 			k+=1;
 		e[i]=k*D;
 	}
@@ -57,7 +57,7 @@ int main(int argc, char *argv[]){
 		double sum = 0;
 
         //Sumar las posciones multiplos de D desde el vector e, estas están cada R indices
-		for(j=0;j<R*10;j=j+R)
+		for(j=0;j<R*10;j=j+10)
 			sum+=*(A+e[j]);
 
 		//Guardar Resultados
