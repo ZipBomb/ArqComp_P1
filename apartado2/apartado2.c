@@ -2,10 +2,10 @@
 #include "time.h"
 
 #define handle_error(msg) \
-    do { perror(msg); exit(EXIT_FAILURE); } while (0)   
+    do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 double genera_aleatorio() {
-    double min = 1.0; 
+    double min = 1.0;
     double max = 2.0;
     double rango = max - min;
 
@@ -23,15 +23,15 @@ int main(int argc, char *argv[]){
 	double L = atoll(argv[2]);
 
 	int R = (int)((L*8/D)+1);
-	int e[10*R];
-	
+	int *e=(int *)malloc(10*R*sizeof(int));
+
     double S[10];
 	double ciclos[10];
 	double ck=0;
 
     double *A = NULL;
 	A = _mm_malloc(R*D*8,64);
-	
+
     int i,j;
     int k=0;
 
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]){
     srand((unsigned int)time(NULL));
 	for(i=0; i<R*D;i++)
         *(A+i) = genera_aleatorio();
-    
+
 	for(i=0;i<10;i++){
         valor=rand(R);
 		for(j=0;j<R;j++) {
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
 	for(i=0;i<10;i++){
 		start_counter();
 		double sum = 0;
-		
+
         //Sumar las posciones multiplos de D desde el vector e, estas están cada R indices
 		for(j=0;j<R*10;j=j+R)
 			sum+=*(A+e[j]);
@@ -59,7 +59,7 @@ int main(int argc, char *argv[]){
 		//Guardar Resultados
 		S[i]=sum;
 		ck=get_counter();
-		
+
         //Guardar ciclos
 		ciclos[i]=ck;
 	}
