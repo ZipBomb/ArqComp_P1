@@ -23,14 +23,16 @@ int main(int argc, char *argv[]){
 	double L = atoll(argv[2]);
   int R;
   if(D<8)
-	 R = (int)((L/D)+1);
+	 R = (int)(((L*8)/D)+1);
   else
    R = L;
 
+	FILE *fp;
+    if((fp = fopen("puntos.txt","a+")) == NULL)
+	handle_error("en la apertura del archivo");
 	int *e=(int *)malloc(10*R*sizeof(int));
 
     double S[10];
-	double ciclos[10];
 	double ck=0;
 
     double *A = NULL;
@@ -42,7 +44,7 @@ int main(int argc, char *argv[]){
     // Inicialización de los valores del vector
     srand((unsigned int)time(NULL));
 	for(z=0; z<R*D;z++)
-        *(A+z) = genera_aleatorio();
+        	*(A+z) = genera_aleatorio();
 
 	// Generación de secuencias de D cada R índices
 	e[0]=0;
@@ -53,49 +55,29 @@ int main(int argc, char *argv[]){
 	}
 
 	for(i=0;i<10;i++){
-		start_counter();
-		double sum = 0;
 
+		double sum = 0;
+		start_counter();
         //Sumar las posciones multiplos de D desde el vector e, estas están cada R indices
 		for(j=0;j<R*10;j=j+10)
 			sum+=*(A+e[j]);
 
 		//Guardar Resultados
-		S[i]=sum;
 		ck=get_counter();
+		S[i]=sum;
 
-        //Guardar ciclos
-		ciclos[i]=ck;
+		fprintf(fp,"%f  ",ck/(R));
+		fprintf(fp,"%f  ",L);
+		fprintf(fp,"%d\n",D);
 	}
 
-	//Ordenar los ciclos medidos
-	double aux=0;
-	for(i=0;i<9;i++){
-		for(j=0;j<9;j++){
-			if(ciclos[j]>ciclos[j+1]){
-				aux=ciclos[j];
-				ciclos[j]=ciclos[j+1];
-				ciclos[j+1]=aux;
-			}
-		}
-	}
 
 	mhz(1, 1);
 
 	for(i=0;i<10;i++)
 		printf("Resultado %d: %f\n", i+1,S[i]);
 
-	FILE *fp;
-    if((fp = fopen("puntos.txt","a+")) == NULL)
-        handle_error("en la apertura del archivo");
-
-	//Escribir en el archivo las tres mejores medidas
-  for(i=0;i<3;i++){
-		fprintf(fp, "%f", ciclos[i]);
-		fprintf(fp, "  %f", L);
-    fprintf(fp, "  %d\n", D);
-	}
-
+    //Liberar
   _mm_free(A);
   free(e);
 
