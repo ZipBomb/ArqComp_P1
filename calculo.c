@@ -59,7 +59,7 @@ int main(){
     FILE *cp;
     j=0;
     if(z==0){
-      cp=fopen("D=5.csv","w");
+      cp=fopen("D=1.csv","w");
       for(j=i;j<35;j=j+5){
         fprintf(cp, "%d ", ejeX[j]);
         fprintf(cp, "%f\n", ejeY[j]);
