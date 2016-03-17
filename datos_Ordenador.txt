@@ -1,0 +1,4 @@
+intel core 2 quad cpu q9550
+2,83 GHz
+4 nucleos
+kernell : 3.5.0-37
