@@ -14,6 +14,18 @@ double genera_aleatorio() {
     return random * rango + min;
 }
 
+void shuffle(int *array, int tam) {
+    if(tam > 1) {
+        int i;
+        for(i=0; i<(tam-1); i++) {
+            int j = i + rand() / (RAND_MAX / (tam-i)+1);
+            int t = array[j];
+            array[j] = array[i];
+            array[i] = t;
+        }
+    }
+}
+
 int main(int argc, char *argv[]){
 
     if(argc != 3 || atoi(argv[1]) < 1 || atoll(argv[2]) < 1)
@@ -21,81 +33,69 @@ int main(int argc, char *argv[]){
 
 	int D = atoi(argv[1]);
 	double L = atoll(argv[2]);
-  if(D<8)
-	 int R = (int)((L/D)+1);
-  else
-    int R = L;
+FILE *fp;
+    if((fp = fopen("puntos.txt","a+")) == NULL)
+        handle_error("en la apertura del archivo");
+    int R;
+    if(D<8)
+        R = (int)((L*8/D)+1);
+    else
+        R = L;
 
 	int *e=(int *)malloc(10*R*sizeof(int));
 
     double S[10];
-	double ciclos[10];
+
 	double ck=0;
 
     double *A = NULL;
 	A = _mm_malloc(R*D*8,64);
 
     int i,j;
-    int k=0;
+    int *k = (int *)calloc(R, sizeof(int));
 
     // Inicialización de los valores del vector
     srand((unsigned int)time(NULL));
 	for(i=0; i<R*D;i++)
         *(A+i) = genera_aleatorio();
 
-	for(i=0;i<10;i++){
-        valor=rand(R);
-		for(j=0;j<R;j++) {
-            e[i*R+j] = valor * D;
-            valor = (valor + 1) % R;
+    for(i=0;i<R;i++)
+        *(k+i)=i;
+
+    shuffle(k, R);
+
+    j = -1;
+    for(i=0; i<10*R; i++) {
+        if(i%10==0) {
+            j++;
         }
-	}
+        e[i]=k[j]*D;
+    }
 
 	for(i=0;i<10;i++){
-		start_counter();
 		double sum = 0;
 
         //Sumar las posciones multiplos de D desde el vector e, estas están cada R indices
-		for(j=0;j<R*10;j=j+R)
+		start_counter();
+		for(j=0;j<R*10;j=j+10)
 			sum+=*(A+e[j]);
 
+		ck=get_counter();
 		//Guardar Resultados
 		S[i]=sum;
-		ck=get_counter();
 
-        //Guardar ciclos
-		ciclos[i]=ck;
+		fprintf(fp,"%f  ",ck/(R));
+		fprintf(fp,"%f  ",L);
+		fprintf(fp,"%d\n",D);
 	}
 
     _mm_free(A);
     free(e);
 
-	//Ordenar los ciclos medidos
-	double aux=0;
-	for(i=0;i<9;i++){
-		for(j=0;j<9;j++){
-			if(ciclos[j]>ciclos[j+1]){
-				aux=ciclos[j];
-				ciclos[j]=ciclos[j+1];
-				ciclos[j+1]=aux;
-			}
-		}
-	}
-
 	mhz(1, 1);
 
 	for(i=0;i<10;i++)
 		printf("Resultado %d: %f\n", i+1,S[i]);
-
-	FILE *fp;
-    if((fp = fopen("puntos.txt","a+")) == NULL)
-        handle_error("en la apertura del archivo");
-
-	//Escribir en el archivo las tres mejores medidas
-	for(i=0;i<3;i++){
-		fprintf(fp, "%f", ciclos[i]);
-		fprintf(fp, "  %f\n", L);
-	}
 
 	return 0;
 }
